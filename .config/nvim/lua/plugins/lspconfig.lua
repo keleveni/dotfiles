@@ -4,7 +4,7 @@ local servers = {
   "lua_ls",
   "gopls",
   "rust_analyzer",
-  "ts_ls",
+  "tsgo",
   "jsonls",
   "yamlls",
   "taplo",
@@ -50,7 +50,9 @@ return {
     config = function()
       require("mason-lspconfig").setup({
         ensure_installed = servers,
-        automatic_enable = true, -- インストール済みサーバーを自動で vim.lsp.enable
+        -- インストール済みサーバーを自動で vim.lsp.enable。
+        -- ts_ls は tsgo と二重に起動しないよう除外する（mason に残っていても有効化しない）
+        automatic_enable = { exclude = { "ts_ls" } },
       })
 
       -- 診断表示：virtual_text は行末に収まらず途切れるので、
